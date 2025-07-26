@@ -65,7 +65,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
 |--------|-------------|
 | `add <USER/REPO:BRANCH> <PATH/TO/FILE> <IDENTIFIER>` | Registers a new target. |
 | `remove <IDENTIFIER>` | Removes a registered target. |
-| `select <IDENTIFIER>` | Selects a default target for future commands. |
+| `select [<IDENTIFIER>]` | Selects a default target for future commands. Unselects current target is none is specified. |
 | `list` | Lists all registered targets. |
 | `selected` | Displays the currently selected target. |
 
