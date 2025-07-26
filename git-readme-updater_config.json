@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "myTarget": {
+      "repo": "user/repo:branch",
+      "file": "README.md",
+      "sections": {
+        "Projects": {
+          "Player": "- FknPlayer"
+        }
+      }
+    }
+  },
+  "selected": "myTarget"
+}
