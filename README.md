@@ -35,6 +35,7 @@ The installation script will:
    ```bash
    git clone https://github.com/RedStoneMango/git-readme-updater.git
    ```
+   If `git` is not installed yet, install it (required for script functionality and instalation process).
 
 2. Ensure the target directory is writable, as configuration files will be stored there.
 
