@@ -65,12 +65,12 @@ case "$1" in
   "build")
     build "$2" "$3" "$4"
     ;;
-  "updateRemote")
+  "remoteUpdate")
     echo -e "\033[31mThis functionality is not implemented yet.\033[0m"
     ;;
   *)
     echo "Usage: $0 build <TEMPLATE_PATH> <OUTPUT_PATH> [<TARGET_IDENTIFIER>]"
-    echo "       $0 updateRemote <BUILT_FILE_PATH> [--message|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]"
+    echo "       $0 remoteUpdate <BUILT_FILE_PATH> [--message|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]"
     exit 1
   ;;
 esac

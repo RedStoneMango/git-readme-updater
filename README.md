@@ -43,6 +43,8 @@ The installation script will:
 
 4. Optionally, create symbolic links to the `.sh` script files in a directory listed in your `$PATH` to run them from anywhere.
 
+> ⚠️ All scripts have to be located in the same directory. This directory has to be read-/writable when executing the script.
+
 ---
 
 ## ⚙️ Usage
@@ -82,7 +84,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
 | Command | Description |
 |--------|-------------|
 | `build <TEMPLATE_PATH> <OUTPUT_PATH> [<TARGET_IDENTIFIER>]` | Generates a new README using a template. |
-| `commitPush <BUILT_FILE_PATH> [--message\|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]` | Commits and pushes the new README to GitHub. |
+| `remoteUpdate <BUILT_FILE_PATH> [--message\|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]` | Pulls the repository and commits & pushes the new README to GitHub. |
 
 ---
 
