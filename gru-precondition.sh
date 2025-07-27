@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+resolve_dir() {
+  SOURCE="${BASH_SOURCE[0]}"
+  while [ -L "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+  done
+  DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+  echo "$DIR"
+}
+
+SCRIPT_DIR="$(resolve_dir)"
 CONFIG_FILE="$SCRIPT_DIR/git-readme-updater_config.json"
 
 installJq() {
