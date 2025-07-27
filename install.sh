@@ -26,7 +26,7 @@ echo "Downloaded to: $INSTALL_PATH"
 echo "Setting up symlinks..."
 if [ -d "$INSTALL_PATH" ]; then
   for file in "$INSTALL_PATH"/*.sh; do
-    if [ -f "$file" ]; then
+    if [ -f "$file" ] && [[ ! "$(basename "$file")" = "install.sh" ]]; then
       link_name="/usr/local/bin/$(basename "$file" .sh)"
       if [ ! -L "$link_name" ]; then
         echo "Creating symlink: $link_name"
@@ -51,5 +51,6 @@ rm -f "$INSTALL_PATH/install.sh" || true
 echo "Installation script deleted."
 
 echo "Installation complete! You can now use the 'gru' commands."
-echo "For help, run: gru-help.sh"
-echo "To update, run: gru-update.sh"
+echo "For help, run: gru-help"
+echo "To update, run: gru-update"
+echo "To uninstall, run: gru-uninstall"
