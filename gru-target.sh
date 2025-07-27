@@ -129,8 +129,8 @@ list() {
     exit 1
   fi
 
-  echo "Available targets:"
-  jq -r '.targets | to_entries[] | "- \(.key)"' "$CONFIG_FILE"
+  echo -e "\033[32mAvailable targets:"
+  echo -e "$(jq -r '.targets | to_entries[] | "- \(.key)"' "$CONFIG_FILE")" "\033[0m"
 }
 
 selected() {

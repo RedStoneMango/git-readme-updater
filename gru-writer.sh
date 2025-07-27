@@ -136,8 +136,8 @@ read() {
       exit 1
     fi
 
-    echo "Available sections:"
-    jq -r --arg target "$TARGET_IDENTIFIER" '.targets[$target].sections | to_entries[] | "- \(.key)"' "$CONFIG_FILE"
+    echo -e "\033[32mAvailable sections:"
+    echo -e "$(jq -r --arg target "$TARGET_IDENTIFIER" '.targets[$target].sections | to_entries[] | "- \(.key)"' "$CONFIG_FILE")\033[0m"
 
   else
     if ! jq -e --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] // empty' "$CONFIG_FILE" >/dev/null || [ "$(jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] | length' "$CONFIG_FILE")" -eq 0 ]; then
@@ -147,13 +147,13 @@ read() {
     if jq -e --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" ' [.targets[$target].sections[$section] | to_entries[] | select(.key != "PLACEHOLDER")]  | length == 0' "$CONFIG_FILE" >/dev/null; then
       echo -e "\033[31mNo written lines\033[0m"
     else
-      echo "Written lines:"
+      echo -e "\033[32mWritten lines:"
     fi
 
     jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" ' .targets[$target].sections[$section] | to_entries[] | select(.key != "PLACEHOLDER") | "- \(.key) (\"\(.value)\")"' "$CONFIG_FILE"
 
-    echo "-----------------"
-    echo "Placeholder text: \"$(jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section].PLACEHOLDER // empty' "$CONFIG_FILE")\""
+    echo -e "\033[0m-----------------"
+    echo -e "\033[32mPlaceholder text: \""$(jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section].PLACEHOLDER // empty' "$CONFIG_FILE")\""\033[0m"
   fi
 }
 
