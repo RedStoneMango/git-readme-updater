@@ -158,7 +158,7 @@ read() {
 }
 
 
-./gru-precondition.sh
+"$SCRIPT_DIR"/gru-precondition.sh
 if [ $? -ne 0 ]; then
   echo -e "\033[31mProcodition check failed! Unable to run script.\033[0m"
   exit 1

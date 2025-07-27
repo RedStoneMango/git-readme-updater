@@ -27,7 +27,7 @@ echo "Setting up symlinks..."
 if [ -d "$INSTALL_PATH" ]; then
   for file in "$INSTALL_PATH"/*.sh; do
     if [ -f "$file" ]; then
-      link_name="/usr/local/bin/$(basename "$file")"
+      link_name="/usr/local/bin/$(basename "$file" .sh)"
       if [ ! -L "$link_name" ]; then
         echo "Creating symlink: $link_name"
         sudo ln -s "$file" "$link_name"
