@@ -85,7 +85,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
 | Command | Description |
 |--------|-------------|
 | `build <TEMPLATE_PATH> <OUTPUT_PATH> [<TARGET_IDENTIFIER>]` | Generates a new README using a template. |
-| `remoteUpdate <BUILT_FILE_PATH> [--message\|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]` | Pulls the repository and commits & pushes the new README to GitHub. |
+| `remote-update <BUILT_FILE_PATH> [--message\|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]` | Pulls the repository and commits & pushes the new README to GitHub. |
 
 ---
 
@@ -137,7 +137,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
 
 6. **Update the linked remote repository:**
    ```bash
-   gru-worker remoteUpdate "./builtReadme.md" --message "Updated project list"
+   gru-worker remote-update "./builtReadme.md" --message "Updated project list"
    ```
 
 ---
