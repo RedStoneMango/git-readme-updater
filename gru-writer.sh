@@ -81,9 +81,12 @@ erase() {
       jq --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '
         del(.targets[$target].sections[$section])
       ' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+     echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'. Removed section '$SECTION' for it is empty now.\033[0m"
+  else
+     echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'\033[0m"
   fi
 
-  echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION\033[0m"
+  echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'\033[0m"
 }
 
 read() {
@@ -117,7 +120,7 @@ read() {
   if [ -z "$SECTION" ]; then
     if ! jq -e --arg target "$TARGET_IDENTIFIER" '.targets[$target].sections // empty' "$CONFIG_FILE" >/dev/null || [ "$(jq -r --arg target "$TARGET_IDENTIFIER" '.targets[$target].sections | length' "$CONFIG_FILE")" -eq 0 ]; then
       echo -e "\033[31mNo sections advailable.\033[0m"
-      return
+      exit 1
     fi
 
     echo "Available sections:"
@@ -126,7 +129,7 @@ read() {
   else
     if ! jq -e --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] // empty' "$CONFIG_FILE" >/dev/null || [ "$(jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] | length' "$CONFIG_FILE")" -eq 0 ]; then
       echo -e "\033[31mSection '$SECTION' does not exist.\033[0m"
-      return
+      exit 1
     fi
 
     echo "Written lines:"
