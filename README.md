@@ -35,7 +35,7 @@ The installation script will:
 - Download the script files
 - Create symbolic links in your `$PATH`
 
-> ⚠️ You may need **elevated privileges** to install dependencies and create symlinks in system paths.
+> ⚠️ It is recommended to run the script with **elevated privileges** avoid errors in the piped non-interactive shell.
 
 ---
 

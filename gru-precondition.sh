@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_FILE="$SCRIPT_DIR/git-readme-updater_config.json"
@@ -51,7 +51,7 @@ checkJq() {
     if command -v jq >/dev/null 2>&1; then
         return 0
     else
-        echo -e "\033[31mRequired dependency jq not found.\033[0m"
+        echo -e "\033[33mRequired dependency jq not found.\033[0m"
         installJq
 
         if ! command -v jq >/dev/null 2>&1; then
@@ -108,7 +108,7 @@ checkGit() {
     if command -v git >/dev/null 2>&1; then
         return 0
     else
-        echo -e "\033[31mRequired dependency git not found.\033[0m"
+        echo -e "\033[33mRequired dependency git not found.\033[0m"
         installGit
 
         if ! command -v git >/dev/null 2>&1; then
