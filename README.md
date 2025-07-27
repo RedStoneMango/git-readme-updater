@@ -2,7 +2,7 @@
 
 ### ❗ This repository is not finished yet. I'm actively developing this tool and will be done as soon as possible ❗
 
-A collection of Bash scripts to **dynamically update sections in Git README files** with ease. Automate README updates across multiple repositories using a simple CLI toolchain.
+A collection of Bash scripts to **dynamically update sections in GitHub README files** with ease. Automate README updates across multiple repositories using a simple CLI toolchain.
 
 ---
 
@@ -37,7 +37,7 @@ The installation script will:
    ```
    If `git` is not installed yet, install it (required for script functionality and instalation process).
 
-2. Ensure the target directory is writable, as configuration files will be stored there.
+2. Ensure the target directory is writable, for the configuration files will be stored there.
 
 3. Install `jq`, a lightweight and flexible JSON processor (required for script functionality).
 
@@ -78,7 +78,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
 |--------|-------------|
 | `write <TEXT> <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]` | Adds or updates a line in a section. |
 | `erase <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]` | Removes a line from a section. |
-| `read [--section\|-s <SECTION>] [<TARGET_IDENTIFIER>]` | Lists sections or line identifiers. |
+| `read [--section\|-s <SECTION>] [<TARGET_IDENTIFIER>]` | Lists sections or lines inside a section. |
 
 #### 🔹 `gru-worker`
 | Command | Description |
@@ -124,7 +124,7 @@ The Git README Updater (`gru`) is made up of modular command groups:
    gru-worker build "./template.md" "./builtReadme.md"
    ```
 
-   Output:
+   Output `(builtReadme.md)`:
    ```
    # John Doe
 
