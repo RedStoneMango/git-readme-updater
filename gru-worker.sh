@@ -32,14 +32,11 @@ build() {
     fi
 
     if [ ! -d "$(dirname "$OUTPUT_PATH")" ]; then
-        echo -e "\033[31mOutput directory does not exist. Creating it...\033[0m"
+        echo -e "\033[33mOutput directory does not exist. Creating it...\033[0m"
         mkdir -p "$(dirname "$OUTPUT_PATH")"
     fi
-    
 
-    TEMPLATE=$(cat "$TEMPLATE_PATH")
-
-    TEMPLATE=$(jq -r --arg target "$TARGET_IDENTIFIER" --arg template "$TEMPLATE" '
+    TEMPLATE=$(jq -r --arg target "$TARGET_IDENTIFIER" --arg template $(cat "$TEMPLATE_PATH") '
     def replace_all_placeholders(tmpl; sections):
         reduce (sections | to_entries[]) as $entry (
         tmpl;
