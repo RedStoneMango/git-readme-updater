@@ -50,7 +50,8 @@ echo "Deleting installation script..."
 rm -f "$INSTALL_PATH/install.sh" || true
 echo "Installation script deleted."
 
-echo "Installation complete! You can now use the 'gru' commands."
+echo "-------------------------------------------------------"
+echo -e "\033[1mInstallation complete! You can now use the 'gru' commands."
 echo "For help, run: gru-help"
 echo "To update, run: gru-update"
-echo "To uninstall, run: gru-uninstall"
+echo -e "To uninstall, run: gru-uninstall\033[0m"
