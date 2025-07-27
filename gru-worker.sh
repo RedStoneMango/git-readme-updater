@@ -120,27 +120,33 @@ remoteUpdate() {
     mkdir -p "$TMP_REPO_DIR"
 
     REPO=$(jq -r ".targets[\"$TARGET_IDENTIFIER\"].repo" "$CONFIG_FILE")
-    if [[ ! "$REPO" =~ ^[a-zA-Z0-9_-]+/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+$ ]]; then
-      echo -e "\033[31;1m[Critical]: Remote repository format is incorrect. Expected format: 'owner/repo:branch'.\033[0m"
-      exit 1
-    fi
-    REPO_PATH="${REPO%%:*}"
-    GITHUB_URL="https://github.com/"${REPO_PATH}".git"
-    REPO_BRANCH="${REPO#*:}"
-    START_DIR="$(pwd)"
-    REPO_NAME="${REPO_PATH##*/}"
+    REPO_BRANCH="$(jq -r ".targets[\"$TARGET_IDENTIFIER\"].branch" "$CONFIG_FILE")"
     REPO_FILE=$(jq -r ".targets[\"$TARGET_IDENTIFIER\"].file" "$CONFIG_FILE")
+
+    START_DIR="$(pwd)"
+
+    echo -e "\033[32mVerifying repository '"$REPO"'...\033[0m"
+    if ! git ls-remote "$REPO" &>/dev/null; then
+        echo -e "\033[31mRepository '"$REPO"' could not be verified. Make sure you entered a valid git@, ssh://git@, or https:// URL.\033[0m"
+        exit 1
+    fi
+    echo -e "\033[32mVerifying branch '"$REPO_BRANCH"'...\033[0m"
+    if ! git ls-remote --heads "$REPO" "$REPO_BRANCH" | grep -q "refs/heads/$REPO_BRANCH"; then
+        echo -e "\033[31mBranch '$REPO_BRANCH' could not be verified in '$REPO'. Make sure you enter an existing branch's name.\033[0m"
+        exit 1
+    fi
 
     cd "$TMP_REPO_DIR"
     
-    echo -e "\033[32mCloning repository '"$REPO_NAME"' from branch '"$REPO_BRANCH"'! In: '"$GITHUB_URL"' Out: '"$TMP_REPO_DIR"'...\033[0m"
-    git clone --depth 1 --branch "$REPO_BRANCH" "$GITHUB_URL" || {
-        echo -e "\033[31mFailed to clone brach '"$REPO_BRANCH"' in repository '"$GITHUB_URL"' with a depth of 1.\033[0m"
+    echo -e "\033[32mCloning repository '"$REPO"' from branch '"$REPO_BRANCH"'! Out: '"$TMP_REPO_DIR"'...\033[0m"
+    git clone --depth 1 --branch "$REPO_BRANCH" "$REPO" || {
+        echo -e "\033[31mFailed to clone brach '"$REPO_BRANCH"' in repository '"$REPO"' with a depth of 1.\033[0m"
         exit 1
     }
 
-    cd "$REPO_NAME" || {
-        echo -e "\033[31mFailed to change directory to cloned repository '"$REPO_NAME"'.\033[0m"
+    FOLDER="$(find . -maxdepth 1 -type d ! -name '.' | sort | head -n 1)"
+    cd "$FOLDER" || {
+        echo -e "\033[31mFailed to change directory to newly created folder '"$FOLDER"'.\033[0m"
         exit 1
     }
 
@@ -167,7 +173,7 @@ remoteUpdate() {
     
     echo -e "\033[32mPushing changes to remote repository...\033[0m"
     git push origin "$REPO_BRANCH" || {
-        echo -e "\033[31mFailed to push changes to remote repository '"$GITHUB_URL"' on branch '"$REPO_BRANCH"'.\033[0m"
+        echo -e "\033[31mFailed to push changes to remote repository '"$REPO"' on branch '"$REPO_BRANCH"'.\033[0m"
         exit 1
     }
     cd "$START_DIR"

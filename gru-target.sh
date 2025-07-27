@@ -6,18 +6,26 @@ CONFIG_FILE="$SCRIPT_DIR/git-readme-updater_config.json"
 addOrLink() {
   IDENTIFIER="$1"
   TARGET_REPOSITORY="$2"
-  REMOTE_FILE="$3"
-  add="$4"
-  if [[ -z "$REMOTE_FILE" && -n "$TARGET_REPOSITORY" ]] || [[ -z "$TARGET_REPOSITORY" && -n "$REMOTE_FILE" ]]; then
-    echo -e "\033[31mFile path and identifier are required to define a remote repository for a target.\033[0m"
-    exit 1
-  fi
-  if [[ ! "$TARGET_REPOSITORY" =~ ^[a-zA-Z0-9_-]+/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+$ ]] && [[ ! -z "$TARGET_REPOSITORY" ]]; then
-    echo -e "\033[31mInvalid target repository format. Expected format: 'owner/repo:branch'.\033[0m"
-    exit 1
-  fi
+  TARGET_BRANCH="$3"
+  REMOTE_FILE="$4"
+  add="$5"
+
   if [[ -z "$IDENTIFIER" ]]; then
     echo -e "\033[31mIdentifier is required to manage a target.\033[0m"
+    exit 1
+  fi
+
+  if { [[ -z "$REMOTE_FILE" ]] || [[ -z "$TARGET_REPOSITORY" ]] || [[ -z "$TARGET_BRANCH" ]]; } && \
+     { [[ -n "$REMOTE_FILE" ]] || [[ -n "$TARGET_REPOSITORY" ]] || [[ -n "$TARGET_BRANCH" ]]; }; then
+    echo -e "\033[31mRepository URL, branch and target file are required to define a remote repository for a target.\033[0m"
+    exit 1
+  fi
+  if [ -n "$TARGET_REPOSITORY" ] && echo -e "\033[32mVerifying repository '"$TARGET_REPOSITORY"'...\033[0m" && ! git ls-remote "$TARGET_REPOSITORY" &>/dev/null; then
+    echo -e "\033[31mRepository '"$TARGET_REPOSITORY"' could not be verified. Make sure you entered a valid git@, ssh://git@, or https:// URL.\033[0m"
+    exit 1
+  fi
+  if [ -n "$TARGET_BRANCH" ] && echo -e "\033[32mVerifying branch '"$TARGET_BRANCH"'...\033[0m" && ! git ls-remote --heads "$TARGET_REPOSITORY" "$TARGET_BRANCH" | grep -q "refs/heads/$TARGET_BRANCH"; then
+    echo -e "\033[31mBranch '$TARGET_BRANCH' could not be verified in '$TARGET_REPOSITORY'. Make sure you enter an existing branch's name.\033[0m"
     exit 1
   fi
 
@@ -32,12 +40,14 @@ addOrLink() {
   
   jq --arg identifier "$IDENTIFIER" \
     --arg repo "$TARGET_REPOSITORY" \
+    --arg branch "$TARGET_BRANCH" \
     --arg file "$REMOTE_FILE" '
     .targets = (.targets // {}) |
     .targets[$identifier] = (
       (.targets[$identifier] // {}) |
       if $repo != "" then . + {repo: $repo} else del(.repo) end |
-      if $file != "" then . + {file: $file} else del(.file) end
+      if $file != "" then . + {file: $file} else del(.file) end |
+      if $branch != "" then . + {branch: $branch} else del(.branch) end
     )
   ' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
   
@@ -45,7 +55,7 @@ addOrLink() {
   if [ $add = "true" ]; then
 
     if [ -n "$TARGET_REPOSITORY" ]; then
-      echo -e "\033[32mSuccessfully added target '"$IDENTIFIER"' (linked to '"$REMOTE_FILE"' in '"$TARGET_REPOSITORY"').\033[0m"
+      echo -e "\033[32mSuccessfully added target '"$IDENTIFIER"' (linked to '"$REMOTE_FILE"' in branch '"$TARGET_BRANCH"' of '"$TARGET_REPOSITORY"').\033[0m"
     else
       echo -e "\033[32mSuccessfully added target '"$IDENTIFIER"' (no remote links).\033[0m"
     fi
@@ -53,7 +63,7 @@ addOrLink() {
   else
 
     if [ -n "$TARGET_REPOSITORY" ]; then
-      echo -e "\033[32mTarget '"$IDENTIFIER"' successfully linked to '"$REMOTE_FILE"' in '"$TARGET_REPOSITORY"'.\033[0m"
+      echo -e "\033[32mTarget '"$IDENTIFIER"' successfully linked to '"$REMOTE_FILE"' in branch '"$TARGET_BRANCH"' of '"$TARGET_REPOSITORY"'.\033[0m"
     else
       echo -e "\033[32mSuccessfully removed remote link from target '"$IDENTIFIER"'.\033[0m"
     fi
@@ -105,9 +115,12 @@ info() {
     echo -e "\033[31mTarget with identifier '"$IDENTIFIER"' does not exist.\033[0m"
     exit 1
   fi
-  echo -e "\033[32mSelected target: "$SELECTED""
+  echo -e "\033[32m\""$IDENTIFIER"\""
+  echo "-----------"
+  echo "Section count:" $(echo "$TARGET" | jq -r '.sections | length')
   echo "Repository: $(echo "$TARGET" | jq -r '.repo // "NONE"')"
-  echo -e "Remote File: $(echo "$TARGET" | jq -r '.file // "NONE"')\033[0m"
+  echo "Branch: $(echo "$TARGET" | jq -r '.branch // "NONE"')"
+  echo -e "Remote File: $(echo "$TARGET" | jq -r '.file // "NONE"')" "\033[0m"
 }
 
 list() {
@@ -138,13 +151,13 @@ fi
 
 case "$1" in
   "add")
-    addOrLink "$2" "$3" "$4" "true"
+    addOrLink "$2" "$3" "$4" "$5" "true"
     ;;
   "remove")
     remove "$2"
     ;;
   "link")
-    addOrLink "$2" "$3" "$4" "false"
+    addOrLink "$2" "$3" "$4" "$5" "false"
     ;;
   "select")
     selectTarget "$2"
@@ -159,9 +172,9 @@ case "$1" in
     selected
     ;;
   *)
-    echo "Usage: $0 add <IDENTIFIER> [<USER/REPO:BRANCH> <PATH/TO/FILE>]"
+    echo "Usage: $0 add <IDENTIFIER> [<REPOSITORY LINK> <BRANCH> <PATH/TO/FILE>]"
     echo "       $0 remove <IDENTIFIER>"
-    echo "       $0 link <IDENTIFIER> [<USER/REPO:BRANCH> <PATH/TO/FILE>]"
+    echo "       $0 link <IDENTIFIER> [<REPOSITORY LINK> <BRANCH> <PATH/TO/FILE>]"
     echo "       $0 select [<IDENTIFIER>]"
     echo "       $0 info [<IDENTIFIER>]"
     echo "       $0 list"
