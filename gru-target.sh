@@ -55,7 +55,7 @@ selectTarget() {
   if [ -z "$IDENTIFIER" ]; then
     jq 'del(.selected)' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
     echo -e "\033[32mUnselected target.\033[0m"
-    return
+    exit 0
   fi
   if ! jq -e ".targets[\"$IDENTIFIER\"]" "$CONFIG_FILE" >/dev/null; then
     echo -e "\033[31mTarget with identifier '$IDENTIFIER' does not exist.\033[0m"
@@ -82,7 +82,7 @@ info() {
 list() {
   if ! jq -e '.targets // empty' "$CONFIG_FILE" >/dev/null || [ "$(jq -r '.targets | length' "$CONFIG_FILE")" -eq 0 ]; then
     echo -e "\033[31mNo targets available.\033[0m"
-    return
+    exit 1
   fi
 
   echo "Available targets:"
