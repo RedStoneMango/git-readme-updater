@@ -42,7 +42,7 @@ installJq() {
         echo "Using Snap to install jq"
         sudo snap install jq
     else
-        echo -e "\033[31mNo package manager not found. Please install jq manually.\033[0m"
+        echo -e "\033[31mNo package manager found. Please install jq manually.\033[0m"
         exit 1
     fi
 }
@@ -99,7 +99,7 @@ installGit() {
         echo "Using Snap to install git"
         sudo snap install git
     else
-        echo -e "\033[31mNo package manager not found. Please install git manually.\033[0m"
+        echo -e "\033[31mNo package manager found. Please install git manually.\033[0m"
         exit 1
     fi
 }
