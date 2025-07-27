@@ -79,7 +79,9 @@ The Git README Updater (`gru`) is made up of modular command groups:
 |--------|-------------|
 | `write <TEXT> <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]` | Adds or updates a line in a section. |
 | `erase <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]` | Removes a line from a section. |
-| `read [--section\|-s <SECTION>] [<TARGET_IDENTIFIER>]` | Lists sections or lines inside a section. |
+| `set-placeholder <PLACEHOLDER> <SECTION> [<TARGET_IDENTIFIER>]` | Sets a placeholder to be used if the section is empty. |
+| `read [--section\|-s <SECTION>] [<TARGET_IDENTIFIER>]` | Displays existing sections or data inside a specific section. |
+| `read-section <SECTION> [<TARGET_IDENTIFIER>]` | Shortcut for read --section. |
 
 #### 🔹 `gru-worker`
 | Command | Description |

@@ -38,9 +38,25 @@ build() {
 
     TEMPLATE=$(jq -r --arg target "$TARGET_IDENTIFIER" --arg template "$(cat "$TEMPLATE_PATH")" '
     def replace_all_placeholders(tmpl; sections):
-        reduce (sections | to_entries[]) as $entry (
-        tmpl;
-        gsub("\\{@"+$entry.key+"\\}"; ($entry.value | to_entries | map(.value) | join("\n")))
+        reduce (
+            sections | to_entries[]
+        ) as $section (
+            tmpl;
+            gsub("\\{@"+$section.key+"\\}"; (
+            # Extract entries excluding PLACEHOLDER
+            ($section.value | to_entries | map(select(.key != "PLACEHOLDER"))) as $entries
+            |
+            if ($entries | length) > 0 then
+                # If there are non-PLACEHOLDER entries, join their values
+                ($entries | map(.value) | join("\n"))
+            elif ($section.value | has("PLACEHOLDER")) then
+                # Otherwise, if PLACEHOLDER exists, use its value
+                $section.value["PLACEHOLDER"]
+            else
+                # Fallback: empty string
+                ""
+            end
+            ))
         );
 
     .targets[$target].sections as $sections
