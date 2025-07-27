@@ -36,7 +36,7 @@ build() {
         mkdir -p "$(dirname "$OUTPUT_PATH")"
     fi
 
-    TEMPLATE=$(jq -r --arg target "$TARGET_IDENTIFIER" --arg template $(cat "$TEMPLATE_PATH") '
+    TEMPLATE=$(jq -r --arg target "$TARGET_IDENTIFIER" --arg template "$(cat "$TEMPLATE_PATH")" '
     def replace_all_placeholders(tmpl; sections):
         reduce (sections | to_entries[]) as $entry (
         tmpl;
