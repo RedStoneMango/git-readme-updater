@@ -2,7 +2,7 @@
 
 ### ❗ This repository is not finished yet. I'm actively developing this tool and will be done as soon as possible ❗
 
-A collection of Bash scripts to **dynamically update sections in GitHub README files** with ease. Automate README updates across multiple repositories using a simple CLI toolchain.
+A collection of Bash scripts to **dynamically update sections in README files** with ease. Automate README updates across multiple (remote) repositories using a simple CLI toolchain.
 
 ---
 
@@ -66,8 +66,9 @@ The Git README Updater (`gru`) is made up of modular command groups:
 #### 🔹 `gru-target`
 | Command | Description |
 |--------|-------------|
-| `add <USER/REPO:BRANCH> <PATH/TO/FILE> <IDENTIFIER>` | Registers a new target. |
+| `add <IDENTIFIER> [<USER/REPO:BRANCH> <PATH/TO/FILE>]` | Registers a new target and optionally links it to a remote repository's file. |
 | `remove <IDENTIFIER>` | Removes a registered target. |
+| `link <IDENTIFIER> [<USER/REPO:BRANCH> <PATH/TO/FILE>]` | Links the target to a remote repository's file or removes the remote link. |
 | `select [<IDENTIFIER>]` | Selects a default target for future commands. Unselects current target is none is specified. |
 | `info <IDENTIFIER>` | Displays the target's linked repository and remote file. |
 | `list` | Lists all registered targets. |
@@ -134,9 +135,9 @@ The Git README Updater (`gru`) is made up of modular command groups:
    - Personal website
    ```
 
-6. **Commit and push the changes:**
+6. **Update the linked remote repository:**
    ```bash
-   gru-worker commitPush "./builtReadme.md" --message "Updated project list"
+   gru-worker remoteUpdate "./builtReadme.md" --message "Updated project list"
    ```
 
 ---

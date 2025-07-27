@@ -23,7 +23,7 @@ write() {
   fi
 
   if ! jq -e ".targets[\"$TARGET_IDENTIFIER\"]" "$CONFIG_FILE" >/dev/null; then
-    echo -e "\033[31mTarget with identifier '$TARGET_IDENTIFIER' does not exist.\033[0m"
+    echo -e "\033[31mTarget with identifier '"$TARGET_IDENTIFIER"' does not exist.\033[0m"
     exit 1
   fi
 
@@ -35,7 +35,7 @@ write() {
    .targets[$target].sections[$section][$identifier] = $text
    ' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
 
-  echo -e "\033[32mWrote '$TEXT' with ID '$IDENTIFIER' in '$SECTION'\033[0m"
+  echo -e "\033[32mWrote '"$TEXT"' with ID '"$IDENTIFIER"' in '"$SECTION"'\033[0m"
 }
 
 erase() {
@@ -65,7 +65,7 @@ erase() {
         --arg section "$SECTION" \
         --arg identifier "$IDENTIFIER" \
         '.targets[$target].sections[$section][$identifier]? != null' "$CONFIG_FILE" > /dev/null; then
-        echo -e "\033[31mLine with identifier '$IDENTIFIER' does not exist in section '$SECTION'.\033[0m"
+        echo -e "\033[31mLine with identifier '"$IDENTIFIER"' does not exist in section '"$SECTION"'.\033[0m"
         exit 1
   fi
 
@@ -81,12 +81,10 @@ erase() {
       jq --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '
         del(.targets[$target].sections[$section])
       ' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
-     echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'. Removed section '$SECTION' for it is empty now.\033[0m"
+     echo -e "\033[32mErased '"$IDENTIFIER"' from '"$SECTION"'. Removed section '"$SECTION"' for it is empty now.\033[0m"
   else
-     echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'\033[0m"
+     echo -e "\033[32mErased '"$IDENTIFIER"' from '"$SECTION"'\033[0m"
   fi
-
-  echo -e "\033[32mErased '$IDENTIFIER' from '$SECTION'\033[0m"
 }
 
 read() {
@@ -113,7 +111,7 @@ read() {
   fi
 
   if ! jq -e ".targets[\"$TARGET_IDENTIFIER\"]" "$CONFIG_FILE" >/dev/null; then
-    echo -e "\033[31mTarget with identifier '$TARGET_IDENTIFIER' does not exist.\033[0m"
+    echo -e "\033[31mTarget with identifier '"$TARGET_IDENTIFIER"' does not exist.\033[0m"
     exit 1
   fi
 
@@ -128,7 +126,7 @@ read() {
 
   else
     if ! jq -e --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] // empty' "$CONFIG_FILE" >/dev/null || [ "$(jq -r --arg target "$TARGET_IDENTIFIER" --arg section "$SECTION" '.targets[$target].sections[$section] | length' "$CONFIG_FILE")" -eq 0 ]; then
-      echo -e "\033[31mSection '$SECTION' does not exist.\033[0m"
+      echo -e "\033[31mSection '"$SECTION"' does not exist.\033[0m"
       exit 1
     fi
 

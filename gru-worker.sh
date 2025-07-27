@@ -14,7 +14,7 @@ build() {
     fi
     
     if [ ! -f "$TEMPLATE_PATH" ]; then
-        echo -e "\033[31mTemplate file '$TEMPLATE_PATH' does not exist.\033[0m"
+        echo -e "\033[31mTemplate file '"$TEMPLATE_PATH"' does not exist.\033[0m"
         exit 1
     fi
     
@@ -27,7 +27,7 @@ build() {
     fi
     
     if ! jq -e ".targets[\"$TARGET_IDENTIFIER\"]" "$CONFIG_FILE" >/dev/null; then
-        echo -e "\033[31mTarget with identifier '$TARGET_IDENTIFIER' does not exist.\033[0m"
+        echo -e "\033[31mTarget with identifier '"$TARGET_IDENTIFIER"' does not exist.\033[0m"
         exit 1
     fi
 
@@ -49,7 +49,7 @@ build() {
 
     echo "$TEMPLATE" > "$OUTPUT_PATH"
 
-    echo -e "\033[32mBuild output saved to '$OUTPUT_PATH'.\033[0m"
+    echo -e "\033[32mBuild output saved to '"$OUTPUT_PATH"'.\033[0m"
 }
 
 ./gru-precondition.sh
