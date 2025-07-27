@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 INSTALL_PATH="${1:-$HOME/git-readme-updater}"
@@ -13,7 +14,7 @@ echo "Downloading $ZIP_URL"
 curl -sL "$ZIP_URL" -o "$TMP_DIR/repo.zip"
 
 unzip -q "$TMP_DIR/repo.zip" -d "$TMP_DIR"
-SRC_DIR="$TMP_DIR/${GITHUB_REPO}-${GITHUB_BRANCH}"
+SRC_DIR="$TMP_DIR/git-readme-updater-main"
 
 mkdir -p "$INSTALL_PATH"
 cp -R "$SRC_DIR/"* "$INSTALL_PATH"
@@ -44,6 +45,10 @@ echo "Symlinks set up."
 echo "Running precondition script..."
 "$INSTALL_PATH/gru-precondition.sh"
 echo "Precondition check complete."
+
+echo "Deleting installation script..."
+rm -f "$INSTALL_PATH/install.sh" || true
+echo "Installation script deleted."
 
 echo "Installation complete! You can now use the 'gru' commands."
 echo "For help, run: gru-help.sh"
