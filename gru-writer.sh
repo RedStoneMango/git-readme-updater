@@ -191,6 +191,9 @@ case "$1" in
   "read-section")
     read --section "$2" "$3"
     ;;
+  "--help" | "-h" | "-?")
+    "$SCRIPT_DIR"/gru-help.sh
+    ;;
   *)
     echo "Usage: $0 write <TEXT> <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]"
     echo "       $0 erase <IDENTIFIER> <SECTION> [<TARGET_IDENTIFIER>]"
