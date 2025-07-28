@@ -212,6 +212,9 @@ case "$1" in
   "remote-update")
     remoteUpdate "$2" "$3" "$4" "$5"
     ;;
+  "--help" | "-h" | "-?")
+    "$SCRIPT_DIR"/gru-help.sh
+    ;;
   *)
     echo "Usage: $0 build <TEMPLATE_PATH> <OUTPUT_PATH> [<TARGET_IDENTIFIER>]"
     echo "       $0 remote-update <BUILT_FILE_PATH> [--message|-m <COMMIT_MESSAGE>] [<TARGET_IDENTIFIER>]"
