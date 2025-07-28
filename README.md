@@ -1,7 +1,5 @@
 # 📝 Git README Updater
 
-### ❗ This repository is still in active development. Features may change, and bugs may exist. ❗
-
 Git README Updater (`gru`) is a collection of Bash scripts that let you **dynamically build and update README files locally**, and optionally **link them to remote Git repositories for automatic pushing and updating**. Whether you want to generate up-to-date README sections on your machine or automate updates directly in remote repositories, this tool provides a simple CLI workflow for both.
 
 ---
@@ -18,7 +16,7 @@ This makes it perfect for maintaining your profile README, project dashboards, o
 
 ## 🚀 Installation
 
-> **Note:** These scripts are designed for **Unix-based systems** only.
+> **Note:** These scripts are designed for **Linux systems** only.
 
 ### 🔧 Automatic Installation
 
@@ -57,6 +55,20 @@ The installation script will:
 
 ---
 
+## 💥 Uninstallation
+
+To uninstall `gru`, run the command
+```
+gru-uninstall [<INSTALLATION PATH>]
+```
+This will automatically detect the symlinks created by the [installation script](#-automatic-installation) _(as long as they were not modified)_ and remove the given installation path.
+
+If no installation path was given, the script expects it's location to be that path.
+
+> ⚠️ The script has to be run with **elevated privileges** to be able to delete files in the system path
+
+---
+
 ## ⚙️ Usage
 
 ### Overview
@@ -69,6 +81,13 @@ The installation script will:
 | `gru-writer`  | Add, update, or erase content in logical README sections |
 | `gru-worker`  | Build README from templates locally, and push updates to remote repositories |
 
+It also offers the following utility commands:
+| Command Group | Purpose |
+|---------------|---------|
+| `gru-help`  | Prints a brief summary of this README's content |
+| `gru-uninstall`  | Uninstalls `gru` |
+| `gru-precondition`  | Checks whether all dependencies are installed, installs them if they're not |
+
 ---
 
 ### How to Use
@@ -76,7 +95,7 @@ The installation script will:
 1. **Set up a target:**
 
    - To **work locally only**, register a README file without linking a remote repository.  
-   - To **automatically update a remote Git repository**, register a target and link it to the repository and branch.
+   - To **automatically update a remote Git repository**, register a target and link it to the repository, branch and file in the repository.
 
 2. **Write or update content sections** in the README.
 
@@ -122,12 +141,12 @@ The installation script will:
 
 1. **Register the remote README file as a target:**
    ```bash
-   gru-target add "johnDoe/johnDoe:main" "/README.md" "ProfileRm"
+   gru-target add "remote-readme" "https://github.com/JohnDoe/JohnDoe.git" "main" "README.md"
    ```
 
 2. **Select the target:**
    ```bash
-   gru-target select "ProfileRm"
+   gru-target select "remote-readme"
    ```
 
 3. **Write a new project entry:**
@@ -175,7 +194,7 @@ The installation script will:
 
 1. **Register a local README file as a target (no remote repo linked):**
    ```bash
-   gru-target add "local-readme" "/path/to/README.md"
+   gru-target add "local-readme"
    ```
 
 2. **Select the target:**
@@ -220,7 +239,7 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 ## 🧰 Requirements
 
-- Unix-based OS  
+- Linux operating system
 - `bash`  
 - [`jq`](https://stedolan.github.io/jq/)  
 - [`git`](https://git-scm.com/)  
