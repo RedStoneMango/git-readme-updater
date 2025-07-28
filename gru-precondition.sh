@@ -134,6 +134,11 @@ initConfig() {
     fi
 }
 
+if [ "$1" = "--help" ] || [ "$1" = "-h" ] || [ "$1" = "-?" ]; then
+    "$SCRIPT_DIR"/gru-help.sh
+    exit 0
+fi
+
 initConfig
 checkJq || exit 1
 exit $(checkGit)
