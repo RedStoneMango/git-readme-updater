@@ -2,7 +2,7 @@
 
 set -e
 
-INSTALL_PATH="${1:-$HOME/git-readme-updater}"
+INSTALL_PATH="${1:-$HOME/.git-readme-updater}"
 
 echo "Installing to: $INSTALL_PATH"
 
@@ -53,5 +53,4 @@ echo "Installation script deleted."
 echo "-------------------------------------------------------"
 echo -e "\033[1mInstallation complete! You can now use the 'gru' commands."
 echo "For help, run: gru-help"
-echo "To update, run: gru-update"
-echo -e "To uninstall, run: gru-uninstall\033[0m"
+echo -e "To uninstall safely, run: gru-uninstall\033[0m"
