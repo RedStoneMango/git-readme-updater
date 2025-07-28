@@ -182,6 +182,10 @@ case "$1" in
   "selected")
     selected
     ;;
+  "--help" | "-h" | "-?")
+    "$SCRIPT_DIR"/gru-help.sh
+    exit 0
+    ;;
   *)
     echo "Usage: $0 add <IDENTIFIER> [<REPOSITORY LINK> <BRANCH> <PATH/TO/FILE>]"
     echo "       $0 remove <IDENTIFIER>"
