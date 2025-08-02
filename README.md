@@ -33,7 +33,7 @@ The installation script will:
 - Download the script files
 - Create symbolic links in your `$PATH`
 
-> ⚠️ It is recommended to run the script with **elevated privileges** avoid errors in the piped non-interactive shell.
+> ⚠️ It is recommended to run the script with **elevated privileges** to avoid errors in the piped non-interactive shell.
 
 ---
 
@@ -220,10 +220,10 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 | Term | Description |
 |------|-------------|
-| **Target** | A reference to a specific file in a Git repository (user/repo:branch + path). Commands operate on these targets. |
-| **Writer** | Manages section content. Changes are stored in configuration until a build is triggered. |
+| **Target** | A reference to an abstract file that can be populated and built, optinally linked to a file in a Git repository (user/repo:branch + path). Commands operate on these targets. |
+| **Writer** | Manages section content. Changes are stored in the tool's configuration only until a build is triggered. |
 | **Section** | Logical segments of a README (e.g., “Projects”, “Tech Stack”) to be dynamically populated. |
-| **Template** | A file with placeholders like `{@Projects}` that get replaced with actual data during the build. |
+| **Template** | A file with placeholders like `{@Projects}`, `{@Tech Stack}` that get replaced with actual data during the build. |
 | **Build** | The process of rendering a README by replacing placeholders in a template with content from the `writer`. |
 
 ---
