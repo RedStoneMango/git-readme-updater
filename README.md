@@ -1,10 +1,10 @@
-# 📝 Git README Updater
+# Git README Updater
 
 Git README Updater (`gru`) is a collection of Bash scripts that let you **dynamically build and update README files locally**, and optionally **link them to remote Git repositories for automatic pushing and updating**. Whether you want to generate up-to-date README sections on your machine or automate updates directly in remote repositories, this tool provides a simple CLI workflow for both.
 
 ---
 
-## ⚙️ What It Does
+## What It Does
 
 - **Build your README locally** by defining editable sections and inserting dynamic content using templates.  
 - **Link your local setup to a remote Git repository** so you can commit and push README changes automatically.  
@@ -14,30 +14,30 @@ This makes it perfect for maintaining your profile README, project dashboards, o
 
 ---
 
-## 🚀 Installation
+## Installation
 
 > **Note:** These scripts are designed for **Linux systems** only.
 
-### 🔧 Automatic Installation
+### Automatic Installation
 
 Run the following one-liner to install the updater and all required dependencies:
 
-```bash
+```
 curl -s https://raw.githubusercontent.com/redstonemango/git-readme-updater/main/install.sh | bash -s -- /DESIRED/INSTALLATION/PATH
 ```
 
-📌 Replace `/DESIRED/INSTALLATION/PATH` with the directory where you’d like the scripts to be installed. Missing directories will be created automatically.
+Replace `/DESIRED/INSTALLATION/PATH` with the directory where you’d like the scripts to be installed. Missing directories will be created automatically.
 
 The installation script will:
 - Install required dependencies (`jq`, `git`)
 - Download the script files
 - Create symbolic links in your `$PATH`
 
-> ⚠️ It is recommended to run the script with **elevated privileges** to avoid errors in the piped non-interactive shell.
+> It is recommended to run the script with **elevated privileges** to avoid errors in the piped non-interactive shell.
 
 ---
 
-### 🛠 Manual Installation
+### Manual Installation
 
 1. Clone the repository:
    ```bash
@@ -51,11 +51,11 @@ The installation script will:
 
 4. Optionally, create symbolic links to the `.sh` script files in a directory listed in your `$PATH` to run them from anywhere.
 
-> ⚠️ All scripts have to be located in the same directory. This directory has to be read-/writable when executing the script.
+> All scripts have to be located in the same directory. This directory has to be read-/writable when executing the script.
 
 ---
 
-## 💥 Uninstallation
+## Uninstallation
 
 To uninstall `gru`, run the command
 ```
@@ -65,11 +65,11 @@ This will automatically detect the symlinks created by the [installation script]
 
 If no installation path was given, the script expects it's location to be that path.
 
-> ⚠️ The script has to be run with **elevated privileges** to be able to delete files in the system path
+> The script has to be run with **elevated privileges** to be able to delete files in the system path
 
 ---
 
-## ⚙️ Usage
+## Usage
 
 ### Overview
 
@@ -105,7 +105,7 @@ It also offers the following utility commands:
 
 ---
 
-### 📌 Commands
+### Commands
 
 #### 🔹 `gru-target`
 | Command | Description |
@@ -135,7 +135,7 @@ It also offers the following utility commands:
 
 ---
 
-### 💡 Example Workflow for Remote Auto-Update
+### Example Workflow for Remote Auto-Update
 
 **Goal:** Automatically update the "Current Projects" section in a remote repository's README.
 
@@ -188,7 +188,7 @@ It also offers the following utility commands:
 
 ---
 
-### 💡 Example Workflow for Local-Only Build
+### Example Workflow for Local-Only Build
 
 **Goal:** Build and update a README locally without linking to a remote repository.
 
@@ -216,7 +216,7 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 ---
 
-## 📖 Key Concepts
+## Key Concepts
 
 | Term | Description |
 |------|-------------|
@@ -228,7 +228,7 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 ---
 
-## ✅ Benefits
+## Benefits
 
 - Keeps READMEs up-to-date **automatically** or manually
 - Ideal for **profile READMEs, project dashboards, portfolios, and more**
@@ -237,7 +237,7 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 ---
 
-## 🧰 Requirements
+## Requirements
 
 - Linux operating system
 - `bash`  
@@ -246,7 +246,7 @@ In this workflow, no remote push occurs—you manually manage the README file af
 
 ---
 
-## 📎 License
+## License
 
 MIT — see [LICENSE](https://github.com/RedStoneMango/git-readme-updater/blob/main/LICENSE) for details.
 
